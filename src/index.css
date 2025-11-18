@@ -1,0 +1,150 @@
+@import "tailwindcss";
+
+/* Performance optimizations */
+* {
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Force GPU acceleration for better scrolling */
+body {
+  transform: translateZ(0);
+  -webkit-transform: translateZ(0);
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+  perspective: 1000;
+  -webkit-perspective: 1000;
+}
+
+/* GPU acceleration for transforms */
+.transform-gpu {
+  transform: translateZ(0);
+  will-change: transform;
+}
+
+/* Enhanced smooth scrolling */
+html {
+  scroll-behavior: smooth;
+  overflow-x: hidden;
+  overflow-y: scroll; /* Force scrollbar to prevent layout shift */
+}
+
+/* Optimized scrollbar */
+html::-webkit-scrollbar {
+  width: 8px;
+}
+
+html::-webkit-scrollbar-track {
+  background: #000;
+}
+
+html::-webkit-scrollbar-thumb {
+  background: #333;
+  border-radius: 4px;
+  transition: background 0.2s ease;
+}
+
+html::-webkit-scrollbar-thumb:hover {
+  background: #555;
+}
+
+/* Prevent scroll jump */
+* {
+  scroll-margin-top: 80px;
+}
+
+/* Optimize rendering for better scroll performance */
+img, video, iframe {
+  content-visibility: auto;
+}
+
+/* Optimize backdrop blur - use simple background instead for better performance */
+.backdrop-blur-sm {
+  background-color: rgba(0, 0, 0, 0.5);
+}
+
+/* Only enable backdrop blur on supported browsers and when not scrolling */
+@supports (backdrop-filter: blur(4px)) {
+  @media (hover: hover) and (pointer: fine) {
+    .backdrop-blur-sm:hover {
+      -webkit-backdrop-filter: blur(4px);
+      backdrop-filter: blur(4px);
+    }
+  }
+}
+
+/* Disable heavy effects on scroll */
+@media (hover: hover) {
+  * {
+    transition-property: color, background-color, border-color;
+    transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+  }
+}
+
+/* Reduce motion for accessibility */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* Optimized loader animation */
+.loader {
+  width: 48px;
+  height: 48px;
+  border: 5px solid #FFF;
+  border-bottom-color: transparent;
+  border-radius: 50%;
+  display: inline-block;
+  box-sizing: border-box;
+  animation: rotation 1s linear infinite;
+  will-change: transform;
+  transform: translateZ(0);
+}
+
+@keyframes rotation {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+/* Spotlight animation with GPU acceleration */
+@keyframes spotlight {
+  0% {
+    opacity: 0;
+    transform: translate3d(-72%, -62%, 0) scale(0.5);
+  }
+  100% {
+    opacity: 1;
+    transform: translate3d(-50%, -40%, 0) scale(1);
+  }
+}
+
+.animate-spotlight {
+  animation: spotlight 2s ease 0.75s 1 forwards;
+  will-change: transform, opacity;
+  transform: translateZ(0);
+}
+
+/* Prevent layout shifts */
+.min-h-screen {
+  min-height: 100dvh; /* Use dynamic viewport height */
+}
+
+/* Optimize animations to use transform and opacity only */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
